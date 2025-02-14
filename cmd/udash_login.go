@@ -4,8 +4,8 @@ import (
 	"os"
 
 	"github.com/sirupsen/logrus"
-
 	"github.com/spf13/cobra"
+	"github.com/updatecli/updatecli/pkg/core/format"
 )
 
 var (
@@ -24,26 +24,28 @@ var (
 
 			// TODO: To be removed once not experimental anymore
 			if !experimental {
-				logrus.Warningf("The 'login' feature requires the flag experimental to work, such as:\n\t`updatecli udash login --experimental https://app.updatecli.io`")
+				format.PrintError("⚠️ The 'login' feature requires the flag experimental to work, such as:\n\t`updatecli udash login --experimental https://app.updatecli.io`")
 				os.Exit(1)
 			}
 
 			switch len(args) {
 			case 0:
-				logrus.Errorf("missing URL to login to")
+				format.PrintError("❌ Missing URL to login to")
 				os.Exit(1)
 			case 1:
 				udashEndpointURL = args[0]
 			default:
-				logrus.Errorf("can only login to one URL at a time")
+				format.PrintError("❌ Can only login to one URL at a time")
 				os.Exit(1)
 			}
 
+			format.PrintTitle("🔐 Starting Udash Login")
 			err := run("udash/login")
 			if err != nil {
-				logrus.Errorf("command failed")
+				format.PrintError("❌ Command failed")
 				os.Exit(1)
 			}
+			format.PrintSuccess("✅ Udash Login Completed Successfully")
 		},
 	}
 )

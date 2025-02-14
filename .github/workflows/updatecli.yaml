@@ -33,6 +33,7 @@ jobs:
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FORCE_COLOR: true
       - uses: actions/create-github-app-token@v1.11.3
         id: generate_token
         if: github.ref == 'refs/heads/main'
@@ -45,3 +46,4 @@ jobs:
         env:
           GITHUB_ACTOR: ${{ secrets.UPDATECLI_BOT_GITHUB_ACTOR }}
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+          FORCE_COLOR: true

@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"github.com/sirupsen/logrus"
+	"github.com/updatecli/updatecli/pkg/core/format"
 
 	"github.com/spf13/cobra"
 )
@@ -21,11 +22,14 @@ var (
 				manifestInitPolicyRootDir = args[0]
 			}
 
+			format.PrintTitle("🚀 Initializing Updatecli Policy")
 			err := run("manifest/init")
 			if err != nil {
+				format.PrintError("❌ Command failed")
 				logrus.Errorf("command failed: %s", err)
 				os.Exit(1)
 			}
+			format.PrintSuccess("✅ Updatecli Policy Initialized Successfully")
 		},
 	}
 )

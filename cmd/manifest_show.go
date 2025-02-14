@@ -4,11 +4,10 @@ import (
 	"os"
 
 	"github.com/sirupsen/logrus"
-
 	"github.com/spf13/cobra"
-
 	"github.com/updatecli/updatecli/pkg/core/config"
 	"github.com/updatecli/updatecli/pkg/core/engine/manifest"
+	"github.com/updatecli/updatecli/pkg/core/format"
 	"github.com/updatecli/updatecli/pkg/core/pipeline"
 )
 
@@ -27,6 +26,7 @@ var (
 			policyReferences = args
 			err := getPolicyFilesFromRegistry()
 			if err != nil {
+				format.PrintError("❌ Command failed")
 				logrus.Errorf("command failed: %s", err)
 				os.Exit(1)
 			}
@@ -43,12 +43,13 @@ var (
 			if manifestShowGraph {
 				// TODO: To be removed once not experimental anymore
 				if !experimental {
-					logrus.Warningf("The '--graph' flag requires the flag experimental to work.")
+					format.PrintError("❌ The '--graph' flag requires the flag experimental to work.")
 					os.Exit(1)
 				}
 				e.Options.DisplayFlavor = "graph"
 				err := pipeline.ValidateGraphFlavor(manifestShowGraphFlavor)
 				if err != nil {
+					format.PrintError("❌ Invalid graph flavor")
 					logrus.Errorf("Invalid graph flavor: %s", err)
 					os.Exit(1)
 				}
@@ -58,11 +59,14 @@ var (
 			// Showing templating diff may leak sensitive information such as credentials
 			config.GolangTemplatingDiff = true
 
+			format.PrintTitle("🔍 Starting Manifest Show")
 			err = run("manifest/show")
 			if err != nil {
+				format.PrintError("❌ Manifest Show Failed")
 				logrus.Errorf("command failed: %s", err)
 				os.Exit(1)
 			}
+			format.PrintSuccess("✅ Manifest Show Completed Successfully")
 		},
 	}
 )

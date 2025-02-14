@@ -5,6 +5,7 @@ import (
 
 	"github.com/sirupsen/logrus"
 	"github.com/updatecli/updatecli/pkg/core/engine/manifest"
+	"github.com/updatecli/updatecli/pkg/core/format"
 
 	"github.com/spf13/cobra"
 )
@@ -20,6 +21,7 @@ var (
 			policyReferences = args
 			err := getPolicyFilesFromRegistry()
 			if err != nil {
+				format.PrintError("❌ Command failed")
 				logrus.Errorf("command failed: %s", err)
 				os.Exit(1)
 			}
@@ -34,11 +36,14 @@ var (
 
 			manifestPullPolicyReference = args[0]
 
+			format.PrintTitle("🔧 Starting Prepare")
 			err = run("prepare")
 			if err != nil {
+				format.PrintError("❌ Prepare Failed")
 				logrus.Errorf("command failed: %s", err)
 				os.Exit(1)
 			}
+			format.PrintSuccess("✅ Prepare Completed Successfully")
 		},
 	}
 )

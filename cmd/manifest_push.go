@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"github.com/sirupsen/logrus"
+	"github.com/updatecli/updatecli/pkg/core/format"
 
 	"github.com/spf13/cobra"
 )
@@ -28,7 +29,7 @@ var (
 
 			// Check if the user has specified at least one tag
 			if len(manifestPushPolicyReference) == 0 {
-				logrus.Errorf("At least one tag must be specified")
+				format.PrintError("❌ At least one tag must be specified")
 				os.Exit(1)
 			}
 
@@ -43,11 +44,14 @@ var (
 				manifestFiles = []string{"updatecli.d"}
 			}
 
+			format.PrintTitle("🚀 Starting Manifest Push")
 			err := run("manifest/push")
 			if err != nil {
+				format.PrintError("❌ Command failed")
 				logrus.Errorf("command failed: %s", err)
 				os.Exit(1)
 			}
+			format.PrintSuccess("✅ Manifest Push Completed Successfully")
 		},
 	}
 )

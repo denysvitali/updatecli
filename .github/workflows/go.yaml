@@ -61,6 +61,7 @@ jobs:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
           UPDATECLI_GITEA_TOKEN: ${{ secrets.UPDATECLI_GITEA_TOKEN }}
+          FORCE_COLOR: true
         run: make test
         if: ${{ github.event_name == 'schedule' }}
       # Codecov should only be updated if make test is executed

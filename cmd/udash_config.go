@@ -4,8 +4,8 @@ import (
 	"os"
 
 	"github.com/sirupsen/logrus"
-
 	"github.com/spf13/cobra"
+	"github.com/updatecli/updatecli/pkg/core/format"
 )
 
 var (
@@ -17,15 +17,16 @@ var (
 
 			// TODO: To be removed once not experimental anymore
 			if !experimental {
-				logrus.Warningf("The 'config' feature requires the flag experimental to work, such as:\n\t`updatecli udash config --experimental`")
+				format.PrintError("⚠️ The 'config' feature requires the flag experimental to work, such as:\n\t`updatecli udash config --experimental`")
 				os.Exit(1)
 			}
 
 			err := run("udash/config")
 			if err != nil {
-				logrus.Errorf("command failed")
+				format.PrintError("❌ Command failed")
 				os.Exit(1)
 			}
+			format.PrintSuccess("✅ Command completed successfully")
 		},
 	}
 )

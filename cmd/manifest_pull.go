@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"github.com/sirupsen/logrus"
+	"github.com/updatecli/updatecli/pkg/core/format"
 
 	"github.com/spf13/cobra"
 )
@@ -19,11 +20,14 @@ var (
 			e.Options.Pipeline.Target.Clean = manifestShowClean
 			manifestPullPolicyReference = args[0]
 
+			format.PrintTitle("🔄 Pulling Manifest")
 			err := run("manifest/pull")
 			if err != nil {
+				format.PrintError("❌ Command failed")
 				logrus.Errorf("command failed: %s", err)
 				os.Exit(1)
 			}
+			format.PrintSuccess("✅ Manifest Pulled Successfully")
 		},
 	}
 )
