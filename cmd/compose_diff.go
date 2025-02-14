@@ -6,6 +6,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/updatecli/updatecli/pkg/core/compose"
+	"github.com/updatecli/updatecli/pkg/core/format"
 )
 
 var (
@@ -16,12 +17,14 @@ var (
 
 			c, err := compose.New(composeCmdFile)
 			if err != nil {
+				format.PrintError("❌ Command failed")
 				logrus.Errorf("command failed: %s", err)
 				os.Exit(1)
 			}
 
 			policies, err := c.GetPolicies(disableTLS)
 			if err != nil {
+				format.PrintError("❌ Command failed")
 				logrus.Errorf("command failed: %s", err)
 				os.Exit(1)
 			}
@@ -33,11 +36,14 @@ var (
 			e.Options.Pipeline.Target.Clean = composeCmdClean
 			e.Options.Pipeline.Target.DryRun = true
 
+			format.PrintTitle("🔍 Starting Compose Diff")
 			err = run("compose/diff")
 			if err != nil {
+				format.PrintError("❌ Compose Diff Failed")
 				logrus.Errorf("command failed: %s", err)
 				os.Exit(1)
 			}
+			format.PrintSuccess("✅ Compose Diff Completed Successfully")
 		},
 	}
 )

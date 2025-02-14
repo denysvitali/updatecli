@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/updatecli/updatecli/pkg/core/compose"
 	"github.com/updatecli/updatecli/pkg/core/config"
+	"github.com/updatecli/updatecli/pkg/core/format"
 )
 
 var (
@@ -17,12 +18,14 @@ var (
 
 			c, err := compose.New(composeCmdFile)
 			if err != nil {
+				format.PrintError("❌ Command failed")
 				logrus.Errorf("command failed: %s", err)
 				os.Exit(1)
 			}
 
 			policies, err := c.GetPolicies(disableTLS)
 			if err != nil {
+				format.PrintError("❌ Command failed")
 				logrus.Errorf("command failed: %s", err)
 				os.Exit(1)
 			}
@@ -35,11 +38,14 @@ var (
 			// Showing templating diff may leak sensitive information such as credentials
 			config.GolangTemplatingDiff = true
 
+			format.PrintTitle("🔍 Starting Compose Show")
 			err = run("compose/show")
 			if err != nil {
+				format.PrintError("❌ Compose Show Failed")
 				logrus.Errorf("command failed: %s", err)
 				os.Exit(1)
 			}
+			format.PrintSuccess("✅ Compose Show Completed Successfully")
 		},
 	}
 )

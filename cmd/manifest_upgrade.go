@@ -5,6 +5,7 @@ import (
 
 	"github.com/sirupsen/logrus"
 	"github.com/updatecli/updatecli/pkg/core/engine/manifest"
+	"github.com/updatecli/updatecli/pkg/core/format"
 
 	"github.com/spf13/cobra"
 )
@@ -23,11 +24,14 @@ var (
 
 			e.Options.Config.DisableTemplating = true
 
+			format.PrintTitle("🔄 Starting Manifest Upgrade")
 			err := run("manifest/upgrade")
 			if err != nil {
+				format.PrintError("❌ Manifest Upgrade Failed")
 				logrus.Errorf("command failed: %s", err)
 				os.Exit(1)
 			}
+			format.PrintSuccess("✅ Manifest Upgrade Completed Successfully")
 		},
 	}
 )

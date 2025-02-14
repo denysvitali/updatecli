@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/sirupsen/logrus"
 	"github.com/updatecli/updatecli/pkg/core/result"
@@ -43,11 +42,4 @@ func sanitizeUpdatecliManifestFilePath(rawFilePaths []string) (sanitizedFilePath
 	}
 
 	return result
-}
-
-// PrintTitle print a title
-func PrintTitle(title string) {
-	logrus.Infof("\n\n%s\n", strings.Repeat("+", len(title)+4))
-	logrus.Infof("+ %s +\n", strings.ToTitle(title))
-	logrus.Infof("%s\n\n", strings.Repeat("+", len(title)+4))
 }

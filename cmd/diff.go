@@ -5,6 +5,7 @@ import (
 
 	"github.com/sirupsen/logrus"
 	"github.com/updatecli/updatecli/pkg/core/engine/manifest"
+	"github.com/updatecli/updatecli/pkg/core/format"
 
 	"github.com/spf13/cobra"
 )
@@ -20,6 +21,7 @@ var (
 			policyReferences = args
 			err := getPolicyFilesFromRegistry()
 			if err != nil {
+				format.PrintError("❌ Command failed")
 				logrus.Errorf("command failed: %s", err)
 				os.Exit(1)
 			}
@@ -35,11 +37,14 @@ var (
 			e.Options.Pipeline.Target.Clean = diffClean
 			e.Options.Pipeline.Target.DryRun = true
 
+			format.PrintTitle("🔍 Starting Diff")
 			err = run("diff")
 			if err != nil {
+				format.PrintError("❌ Diff Failed")
 				logrus.Errorf("command failed: %s", err)
 				os.Exit(1)
 			}
+			format.PrintSuccess("✅ Diff Completed Successfully")
 		},
 	}
 )

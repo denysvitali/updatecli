@@ -16,6 +16,7 @@ import (
 	"github.com/updatecli/updatecli/pkg/core/result"
 
 	"github.com/spf13/cobra"
+	"github.com/updatecli/updatecli/pkg/core/format"
 )
 
 var (

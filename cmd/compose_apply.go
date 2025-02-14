@@ -6,6 +6,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/updatecli/updatecli/pkg/core/compose"
+	"github.com/updatecli/updatecli/pkg/core/format"
 )
 
 var (
@@ -37,11 +38,14 @@ var (
 			e.Options.Pipeline.Target.Clean = composeApplyClean
 			e.Options.Pipeline.Target.DryRun = false
 
+			format.PrintTitle("🚀 Starting Compose Apply")
 			err = run("compose/apply")
 			if err != nil {
+				format.PrintError("❌ Compose Apply Failed")
 				logrus.Errorf("command failed: %s", err)
 				os.Exit(1)
 			}
+			format.PrintSuccess("✅ Compose Apply Completed Successfully")
 		},
 	}
 )
